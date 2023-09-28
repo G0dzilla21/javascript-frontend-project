@@ -1,0 +1,81 @@
+/* Reset some default styles in browsers */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Add a global font and center the contents */
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+
+/* Style for the links section */
+#links {
+    margin-bottom: 20px;
+}
+
+/* Style for buttons */
+button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 15px 20px;
+    margin: 10px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+/* Hover effect for buttons */
+button:hover {
+    background-color: #45a049;
+}
+
+/* Style for the hidden sections */
+.hidden {
+    display: none;
+}
+
+/* Style for input fields */
+input[type=text], input[type=password] {
+    padding: 12px;
+    margin: 10px;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    border-radius: 5px;
+}
+
+/* Style for the product section */
+#productsSection div {
+    margin: 10px 0;
+}
+
+/* Style for the Order Confirmation and Previous Orders section */
+#orderConfirmationSection, #previousOrdersSection {
+    width: 80%;
+    border: 1px solid #ccc;
+    padding: 20px;
+    margin: 20px 0;
+    border-radius: 10px;
+}
+
+/* Style for the lists of items */
+ul {
+    list-style-type: none;
+    margin: 10px 0;
+    padding: 0;
+}
+
+/* Style for list items */
+li {
+    background-color: #f2f2f2;
+    margin: 5px 0;
+    padding: 10px;
+    border-radius: 5px;
+}

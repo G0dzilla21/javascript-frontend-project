@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/styles.css">
+    <title>Furniture Store</title>
+</head>
+<body>
+    <!-- Links Section -->
+    <div id="links">
+        <button id="registerBtn">Register</button>
+        <button id="loginBtn">Login</button>
+    </div>
+
+    <!-- Registration Section -->
+    <div id="registrationSection" class="hidden">
+        <input type="text" id="registerUsername" placeholder="Username" />
+        <input type="password" id="registerPassword" placeholder="Password" />
+        <button onclick="registerUser()">Register</button>
+    </div>
+
+    <!-- Login Section -->
+    <div id="loginSection" class="hidden">
+        <input type="text" id="loginUsername" placeholder="Username" />
+        <input type="password" id="loginPassword" placeholder="Password" />
+        <button onclick="loginUser()">Login</button>
+    </div>
+
+    <!-- Products Section -->
+    <div id="productsSection" class="hidden">
+        <h2>Products</h2>
+        <div>
+            <p>Chair - $100</p>
+            <button onclick="addToCart(1)">Add to Cart</button>
+        </div>
+        <div>
+            <p>Table - $250</p>
+            <button onclick="addToCart(2)">Add to Cart</button>
+        </div>
+        <div>
+            <p>Sofa - $700</p>
+            <button onclick="addToCart(3)">Add to Cart</button>
+        </div>
+    </div>
+
+    <!-- Checkout Section -->
+    <div id="checkoutSection" class="hidden">
+        <button onclick="checkout()">Checkout</button>
+        <button onclick="viewPreviousOrders();">View Previous Orders</button>
+    </div>
+
+    <!-- Order Confirmation -->
+    <div id="orderConfirmationSection" class="hidden">
+        <h2>Order Confirmation</h2>
+        <div id="orderSummary"></div>
+        <button onclick="confirmOrder()">Confirm Order</button>
+        <button onclick="toggleVisibility('orderConfirmationSection')">Cancel</button>
+    </div>
+
+
+    <!-- Previous Orders -->
+    <div id="previousOrdersSection" class="hidden">
+        <h2>Previous Orders</h2>
+        <div id="previousOrders"></div>
+        <button onclick="toggleVisibility('previousOrdersSection')">Close</button>
+    </div>
+
+    <script src="js/app.js"></script>
+</body>
+</html>

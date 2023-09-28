@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/styles.css">
+    <title>Admin Page</title>
+</head>
+<body>
+    <div class="container">
+        <!-- Admin Login -->
+        <div>
+            <h2>Admin Login</h2>
+            <form onsubmit="event.preventDefault(); adminLogin(usernameAdmin.value, passwordAdmin.value);">
+                <input type="text" id="usernameAdmin" placeholder="Username" required>
+                <input type="password" id="passwordAdmin" placeholder="Password" required>
+                <button type="submit">Login</button>
+            </form>
+        </div>
+
+        <!-- Edit Product -->
+        <div>
+            <h2>Edit Product</h2>
+            <form onsubmit="event.preventDefault(); editProduct(productId.value, {name: productName.value, price: parseFloat(productPrice.value)});">
+                <input type="number" id="productId" placeholder="Product ID" required>
+                <input type="text" id="productName" placeholder="New Product Name">
+                <input type="number" id="productPrice" placeholder="New Product Price">
+                <button type="submit">Edit Product</button>
+            </form>
+        </div>
+    </div>
+    <script src="js/admin.js"></script>
+</body>
+</html>
