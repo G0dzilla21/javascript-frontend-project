@@ -19,5 +19,5 @@ function editProduct(productId, updatedInfo) {
 }
 
 // Sample Usage
-adminLogin('admin', 'admin');
-editProduct(1, { name: "New Chair", price: 120 });
+// adminLogin('admin', 'admin');
+// editProduct(1, { name: "New Chair", price: 120 });

@@ -1,71 +1,95 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/styles.css">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" />
+   
     <title>Furniture Store</title>
 </head>
-<body>
-    <!-- Links Section -->
-    <div id="links">
-        <button id="registerBtn">Register</button>
-        <button id="loginBtn">Login</button>
-    </div>
 
-    <!-- Registration Section -->
-    <div id="registrationSection" class="hidden">
-        <input type="text" id="registerUsername" placeholder="Username" />
-        <input type="password" id="registerPassword" placeholder="Password" />
-        <button onclick="registerUser()">Register</button>
-    </div>
-
-    <!-- Login Section -->
-    <div id="loginSection" class="hidden">
-        <input type="text" id="loginUsername" placeholder="Username" />
-        <input type="password" id="loginPassword" placeholder="Password" />
-        <button onclick="loginUser()">Login</button>
-    </div>
+<body class="bg-light">
+    <!-- Navbar Section -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Furniture Store</a>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item hidden" id="registerNav">
+                    <a class="nav-link" href="register.html">Register</a>
+                </li>
+                <li class="nav-item hidden" id="loginNav">
+                    <a class="nav-link" href="login.html">Login</a>
+                </li>
+                <li class="nav-item hidden" id="logoutNav">
+                    <a class="nav-link" href="#" onclick="logoutUser()">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
 
     <!-- Products Section -->
-    <div id="productsSection" class="hidden">
-        <h2>Products</h2>
-        <div>
-            <p>Chair - $100</p>
-            <button onclick="addToCart(1)">Add to Cart</button>
+    <div id="productsSection" class="container mt-3 hidden">
+        <h2>Featured Products</h2>
+        <div class="row">
+            <!-- Chair Product -->
+            <div class="col-md-4 mb-3">
+                <div class="card">
+                    <img src="./images/chair.jpg" class="card-img-top" alt="Chair Image" style="height: 400px; object-fit: cover;" />
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Chair</h5>
+                    <p class="card-text">$100</p>
+                    <button class="btn btn-success" onclick="addToCart(1)">Add to Cart</button>
+                </div>
+            </div>
+
+            <!-- Table Product -->
+            <div class="col-md-4 mb-3">
+                <div class="card">
+                    <img src="./images/table.jpg" class="card-img-top" alt="Table Image" style="height: 400px; object-fit: cover;" />
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Table</h5>
+                    <p class="card-text">$250</p>
+                    <button class="btn btn-success" onclick="addToCart(2)">Add to Cart</button>
+                </div>
+            </div>
+
+            <!-- Sofa Product -->
+            <div class="col-md-4 mb-3">
+                <div class="card">
+                    <img src="./images/couch.jpg" class="card-img-top" alt="Sofa Image" style="height: 400px; object-fit: cover;" />
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Sofa</h5>
+                    <p class="card-text">$700</p>
+                    <button class="btn btn-success" onclick="addToCart(3)">Add to Cart</button>
+                </div>
+            </div>
         </div>
-        <div>
-            <p>Table - $250</p>
-            <button onclick="addToCart(2)">Add to Cart</button>
-        </div>
-        <div>
-            <p>Sofa - $700</p>
-            <button onclick="addToCart(3)">Add to Cart</button>
-        </div>
-    </div>
+    </div>  
+
+
 
     <!-- Checkout Section -->
-    <div id="checkoutSection" class="hidden">
-        <button onclick="checkout()">Checkout</button>
-        <button onclick="viewPreviousOrders();">View Previous Orders</button>
+    <div id="checkoutSection" class="text-center mt-3 hidden">
+        <a href="#" class="btn btn-warning me-2" onclick="checkout(event)">Checkout</a>
+        <a href="previousOrders.html" class="btn btn-info" onclick="viewPreviousOrders()">View Previous Orders</a>
     </div>
 
-    <!-- Order Confirmation -->
-    <div id="orderConfirmationSection" class="hidden">
-        <h2>Order Confirmation</h2>
-        <div id="orderSummary"></div>
-        <button onclick="confirmOrder()">Confirm Order</button>
-        <button onclick="toggleVisibility('orderConfirmationSection')">Cancel</button>
-    </div>
+    <!-- Style for hidden class -->
+    <style>
+        .hidden {
+            display: none;
+        }
+    </style>
 
-
-    <!-- Previous Orders -->
-    <div id="previousOrdersSection" class="hidden">
-        <h2>Previous Orders</h2>
-        <div id="previousOrders"></div>
-        <button onclick="toggleVisibility('previousOrdersSection')">Close</button>
-    </div>
-
-    <script src="js/app.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Link to app.js -->
+    <script src="./js/app.js"></script>
 </body>
+
 </html>
