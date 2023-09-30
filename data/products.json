@@ -2,26 +2,19 @@
     {
         "id": 1,
         "name": "Chair",
-        "price": 100
+        "price": 100,
+        "image": "./images/chair.jpg"
     },
     {
         "id": 2,
         "name": "Table",
-        "price": 200
+        "price": 250,
+        "image": "./images/table.jpg"
     },
     {
         "id": 3,
-        "name": "Bed",
-        "price": 300
-    },
-    {
-        "id": 4,
         "name": "Sofa",
-        "price": 400
-    },
-    {
-        "id": 5,
-        "name": "Cupboard",
-        "price": 500
+        "price": 700,
+        "image": "./images/couch.jpg"
     }
 ]

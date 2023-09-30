@@ -16,7 +16,8 @@
             list-style-type: none;
             padding: 0;
         }
-        li {
+
+        .order-item {
             background-color: #e9ecef;
             margin: 5px 0;
             padding: 10px;
@@ -26,6 +27,26 @@
     <title>Previous Orders</title>
 </head>
 <body class="bg-light">
+
+    <!-- Navbar Section -->
+    <nav class="navbar navbar-expand-lg" style="background-color: lightblue;">
+        <a class="navbar-brand" href="index.html">
+            <img src="./images/logo.png" alt="Logo" width="30" height="30" class="d-inline-block align-top"> 
+            Furniture Store
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item hidden" id="logoutNav">
+                    <a class="nav-link" href="#" onclick="logoutUser()">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+
     <!-- Previous Orders -->
     <div id="previousOrdersSection" class="container mt-3">
         <h2>Previous Orders</h2>
@@ -39,19 +60,24 @@
         };
 
         function viewPreviousOrders() {
-            const previousOrders = JSON.parse(localStorage.getItem('previousOrders')) || [];
-            document.getElementById('previousOrders').innerHTML = previousOrders
-                .map((order, index) => `
+        const previousOrders = JSON.parse(localStorage.getItem('previousOrders')) || [];
+        document.getElementById('previousOrders').innerHTML = previousOrders
+            .map((order, index) => {
+                // Calculate total for each order based on item price and quantity
+                const orderTotal = order.items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+                return `
                     <div>
                         <p><b>Order ${index + 1}:</b></p>
                         <p>Date: ${order.date}</p>
-                        <p>Total: $${order.total}</p>
-                        <ul>${order.items.map(item => `<li>${item.name} - $${item.price}</li>`).join('')}</ul>
+                        <p>Total: $${orderTotal.toFixed(2)}</p>
+                        <ul>${order.items.map(item => `<li class="order-item">ID: #${item.id} <p>Name: ${item.name} (Qty: ${item.quantity}) - $${(item.price * item.quantity).toFixed(2)}</li>`).join('')}</ul>
                     </div>
-                `)
-                .join('');
+                `;
+            })
+            .join('');
         }
 
+       
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>

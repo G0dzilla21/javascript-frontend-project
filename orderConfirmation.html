@@ -26,7 +26,7 @@
             padding: 0;
         }
 
-        li {
+        .summary-li {
             background-color: #e9ecef;
             margin: 5px 0;
             padding: 10px;
@@ -41,21 +41,42 @@
 </head>
 
 <body>
+
+    <!-- Navbar Section -->
+    <nav class="navbar navbar-expand-lg" style="background-color: lightblue;">
+        <a class="navbar-brand" href="index.html">
+            <img src="./images/logo.png" alt="Logo" width="30" height="30" class="d-inline-block align-top"> 
+            Furniture Store
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item hidden" id="logoutNav">
+                    <a class="nav-link" href="#" onclick="logoutUser()">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+
     <div id="orderSummary">
         <script>
-            window.onload = function() {
-                let cart = JSON.parse(localStorage.getItem('cart')) || [];
-                let total = cart.reduce((sum, item) => sum + item.price, 0);
-                const discount = total > 2000 ? total * 0.1 : 0;
-                total -= discount;
+            window.onload = function () {
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            let total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const discount = total > 2000 ? total * 0.1 : 0;
+            total -= discount;
 
-                document.getElementById('orderSummary').innerHTML = 
+            document.getElementById('orderSummary').innerHTML =
                 `
                     <p>Total: $${total.toFixed(2)}</p>
                     ${discount > 0 ? `<p>Discount: $${discount.toFixed(2)}</p>` : ''}
-                    <ul>${cart.map(item => `<li>${item.name} - $${item.price}</li>`).join('')}</ul>
+                    <ul>${cart.map(item => `<li class="summary-li">${item.name} (Qty: ${item.quantity}) - $${(item.price * item.quantity).toFixed(2)}</li>`).join('')}</ul>
                 `;
             };
+
 
             function confirmOrder() {
                 alert('Order confirmed!');
@@ -69,7 +90,7 @@
             }
 
             function goBack() {
-                window.location.href = 'index.html';
+                window.history.back();
             }
         </script>
     </div>

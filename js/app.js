@@ -58,17 +58,112 @@ function logoutUser() {
     window.location.href = 'index.html';
 }
 
-function addToCart(productId) {
-    const productData = {
-        1: { name: 'Chair', price: 100 },
-        2: { name: 'Table', price: 250 },
-        3: { name: 'Sofa', price: 700 }
-    };
-    cart.push(productData[productId]);
-    // Update the cart in local storage after adding an item.
-    localStorage.setItem('cart', JSON.stringify(cart));
-    alert(productData[productId].name + ' added to cart');
+function loadProducts() {
+    return fetch('./data/products.json') // Provide the path to your products.json file
+        .then(response => {
+            if (response.ok) {
+                return response.json();
+            } else {
+                throw new Error('Failed to load products');
+            }
+        })
+        .then(products => {
+            return products;
+        })
+        .catch(error => {
+            console.error(error);
+        });
 }
+
+function displaySearchResults(products) {
+    // Get the searchResults div by its id
+    const searchResultsDiv = document.getElementById('searchResults');
+
+    // Check if the div exists
+    if (!searchResultsDiv) {
+        console.error('searchResults div not found');
+        return;
+    }
+
+    // Clear any existing results
+    searchResultsDiv.innerHTML = '';
+
+    // Loop through the products and add them to the searchResults div
+    products.forEach(product => {
+        const productDiv = document.createElement('div');
+        productDiv.className = 'product';
+        productDiv.innerHTML = `
+        <div class="col-md-4 mb-3">
+            <div class="card">
+                <img src="${product.image}" class="card-img-top" style="height: 400px; object-fit: cover;" />
+            </div>
+            <div class="card-body">
+                <h2>${product.name}</h2>
+                <p>Product ID: #${product.id}</p>
+                <p>Price: $${product.price}</p>
+                <input type="number" id="prodQty" min="1" value="1" class="form-control mb-2" style="width: 80px;">
+                <button class="btn btn-success" onclick="addToCart(${product.id}, document.getElementById('prodQty').value)">Add to Cart</button>
+            </div>
+        </div>
+        `;
+
+        // Append the product div to the searchResults div
+        searchResultsDiv.appendChild(productDiv);
+    });
+}
+
+
+
+function searchProducts(query) {
+    // loadProducts() returns a promise
+    loadProducts().then(products => {
+        // Filter products based on the query
+        const searchResults = products.filter(product => {
+            return product.name.toLowerCase().includes(query.toLowerCase());
+        });
+
+        // Then, you can display these results on your page
+        displaySearchResults(searchResults);
+    });
+}
+
+
+
+function handleSearch() {
+    const query = document.getElementById('productSearch').value;
+    localStorage.setItem('searchQuery', query);
+    window.location.href = 'search.html';
+}
+
+
+
+
+function addToCart(productId, quantity) {
+    fetch('./data/products.json')
+        .then(response => response.json())
+        .then(products => {
+            const product = products.find(prod => prod.id === productId);
+            if (product) {
+                quantity = parseInt(quantity);
+                if (isNaN(quantity) || quantity < 1) {
+                    quantity = 1;
+                }
+                cart.push({ ...product, quantity });
+
+                // Update the cart in local storage after adding an item.
+                localStorage.setItem('cart', JSON.stringify(cart));
+                alert(product.name + ' added to cart, Quantity: ' + quantity);
+            } else {
+                alert('Product not found!');
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching products:', error);
+        });
+}
+
+
+
 
 function checkout(event) {
     event.preventDefault(); // prevent the link from navigating away
@@ -81,38 +176,26 @@ function checkout(event) {
 }
 
 function confirmOrder() {
-    // Get the cart from localStorage
     let cart = JSON.parse(localStorage.getItem('cart')) || [];
-    // Calculate the total
-    let total = cart.reduce((sum, item) => sum + item.price, 0);
+    let total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);  // Multiply by quantity
 
-    // Create an order object including date, items, and total
     const order = {
         items: cart,
         total: total.toFixed(2),
-        date: new Date().toLocaleString() // Save the current date and time as a string
+        date: new Date().toLocaleString()
     };
 
-    // Retrieve existing orders from localStorage or initialize an empty array
     let previousOrders = JSON.parse(localStorage.getItem('previousOrders')) || [];
-
-    // Add the new order to the array of previous orders
     previousOrders.push(order);
-
-    // Save the updated previous orders back to localStorage
     localStorage.setItem('previousOrders', JSON.stringify(previousOrders));
 
-    // Provide confirmation alert to the user
     alert('Order confirmed!');
-
-    // Clear the cart variable
-    cart = [];
 
     // Clear the cart in local storage
     localStorage.removeItem('cart');
 
-    // Update the cart display
-    updateCartDisplay();
+    // Re-initialize the cart variable to an empty array
+    cart = [];
 }
 
 
@@ -135,41 +218,60 @@ function toggleVisibility(sectionId) {
 }
 
 window.addEventListener('load', function () {
+    // Fetch the cart from localStorage
+    cart = JSON.parse(localStorage.getItem('cart')) || [];
     const logoutNav = document.getElementById('logoutNav');
     const registerNav = document.getElementById('registerNav');
     const loginNav = document.getElementById('loginNav');
     const productsSection = document.getElementById('productsSection');
     const checkoutSection = document.getElementById('checkoutSection');
     const isLoggedIn = localStorage.getItem('isLoggedIn');
+    const searchBar = document.getElementById('searchResults')
+    const welcomeSection = this.document.getElementById('welcomeSection')
 
-    if (isLoggedIn === 'true') {
-        logoutNav.classList.remove('hidden');
-        registerNav.classList.add('hidden');
-        loginNav.classList.add('hidden');
-        productsSection.classList.remove('hidden'); // making product section visible
-        checkoutSection.classList.remove('hidden'); // making checkout section visible
-    } else {
-        logoutNav.classList.add('hidden');
-        registerNav.classList.remove('hidden');
-        loginNav.classList.remove('hidden');
-        productsSection.classList.add('hidden'); // making product section hidden
-        checkoutSection.classList.add('hidden'); // making checkout section hidden
+    // Get the current path
+    const pathName = window.location.pathname;
+    // Check if the current page is index.html
+    const onIndexPage = pathName.endsWith('index.html');
+    
+    // Check if logoutNav, registerNav, and loginNav are not null before accessing classList
+    if (logoutNav && registerNav && loginNav) {
+        if (isLoggedIn === 'true') {
+            logoutNav.classList.remove('hidden');
+            registerNav.classList.add('hidden');
+            loginNav.classList.add('hidden');
+        } else {
+            logoutNav.classList.add('hidden');
+            registerNav.classList.remove('hidden');
+            loginNav.classList.remove('hidden');
+        }
     }
-  
-    if (registerBtn) {
-      registerBtn.addEventListener('click', function () {
-        toggleVisibility('registrationSection');
-      });
+    if (searchBar) {
+        if (isLoggedIn === 'true') {
+            searchBar.classList.remove('hidden');
+        } else {
+            searchBar.classList.add('hidden');
+        }
     }
-  
-    if (loginBtn) {
-      loginBtn.addEventListener('click', function () {
-        toggleVisibility('loginSection');
-      });
+    if (welcomeSection) {
+        if (isLoggedIn === 'true') {
+            welcomeSection.classList.add('hidden');
+        } else {
+            welcomeSection.classList.remove('hidden');
+        }   
     }
 
-    if (logoutBtn) {
-        logoutBtn.addEventListener('click', logoutUser);
+
+    // Check if productsSection and checkoutSection are not null before accessing classList
+    if (productsSection && checkoutSection) {
+        if (isLoggedIn === 'true' && onIndexPage) {
+            productsSection.classList.remove('hidden'); // making product section visible
+            checkoutSection.classList.remove('hidden'); // making checkout section visible
+        } else {
+            productsSection.classList.add('hidden'); // making product section hidden
+            checkoutSection.classList.add('hidden'); // making checkout section hidden
+
+        }
     }
 });
-  
+
