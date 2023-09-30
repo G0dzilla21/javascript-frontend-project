@@ -115,17 +115,29 @@ function displaySearchResults(products) {
 
 
 function searchProducts(query) {
+    // Converting query to lowercase and string for comparison
+    const lowerCaseQuery = query.toLowerCase();
+    const stringQuery = query.toString();
+
     // loadProducts() returns a promise
     loadProducts().then(products => {
         // Filter products based on the query
         const searchResults = products.filter(product => {
-            return product.name.toLowerCase().includes(query.toLowerCase());
+            // Converting id to string for comparison
+            const stringId = product.id.toString();
+
+            // Checking both name and id for a match with the query
+            return (
+                product.name.toLowerCase().includes(lowerCaseQuery) || 
+                stringId.includes(stringQuery)
+            );
         });
 
         // Then, you can display these results on your page
         displaySearchResults(searchResults);
     });
 }
+
 
 
 
@@ -227,12 +239,14 @@ window.addEventListener('load', function () {
     const checkoutSection = document.getElementById('checkoutSection');
     const isLoggedIn = localStorage.getItem('isLoggedIn');
     const searchBar = document.getElementById('searchResults')
-    const welcomeSection = this.document.getElementById('welcomeSection')
+    const welcomeSection = document.getElementById('welcomeSection')
 
     // Get the current path
     const pathName = window.location.pathname;
     // Check if the current page is index.html
     const onIndexPage = pathName.endsWith('index.html');
+    const onLoginPage = pathName.endsWith('login.html')
+    const loginSection = document.getElementById('loginSection')
     
     // Check if logoutNav, registerNav, and loginNav are not null before accessing classList
     if (logoutNav && registerNav && loginNav) {
@@ -260,7 +274,6 @@ window.addEventListener('load', function () {
             welcomeSection.classList.remove('hidden');
         }   
     }
-
 
     // Check if productsSection and checkoutSection are not null before accessing classList
     if (productsSection && checkoutSection) {
