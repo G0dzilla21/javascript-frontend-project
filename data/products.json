@@ -16,5 +16,11 @@
         "name": "Sofa",
         "price": 700,
         "image": "./images/couch.jpg"
+    },
+    {
+        "id": 4,
+        "name": "Leather Sofa",
+        "price": 700,
+        "image": "./images/sofa_4.jpg"
     }
 ]

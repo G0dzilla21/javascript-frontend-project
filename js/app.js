@@ -203,6 +203,8 @@ function confirmOrder() {
 
     alert('Order confirmed!');
 
+    window.location.href = 'index.html';
+
     // Clear the cart in local storage
     localStorage.removeItem('cart');
 

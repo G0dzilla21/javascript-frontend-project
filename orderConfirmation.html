@@ -72,15 +72,16 @@
             document.getElementById('orderSummary').innerHTML =
                 `
                     <p>Total: $${total.toFixed(2)}</p>
-                    ${discount > 0 ? `<p>Discount: $${discount.toFixed(2)}</p>` : ''}
+                    ${discount > 0 ? `<p style="color:#008000">(Applied 10% Discount: $${discount.toFixed(2)})</p>` : ''}
                     <ul>${cart.map(item => `<li class="summary-li">${item.name} (Qty: ${item.quantity}) - $${(item.price * item.quantity).toFixed(2)}</li>`).join('')}</ul>
                 `;
             };
 
 
             function confirmOrder() {
-                alert('Order confirmed!');
                 localStorage.removeItem('cart');
+                alert('Order confirmed!');
+                window.location.href = 'index.html';
             }
 
             function clearCart() {
